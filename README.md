@@ -1,64 +1,72 @@
 # Data analysis
-- Document here the project: IIPE
-- Description: Project Description
-- Data Source:
-- Type of analysis:
+- Document here the project: Hacking Educational Planning - IIPE-UNESCO x Latitudes
+- Description: Le Hacking Ed Planning est ouvert à toutes et tous. Plus précisément
+si vous avez des compétences en data science, data analyse, IA, NLP, dataviz, UX/UI,
+ dev (front et/ou back), gestion de projet (PM/PO), votre engagement sera pour nous
+ une aide très précieuse !
+- Data Source: TBD
+- Type of analysis: TBD
 
 Please document the project the better you can.
 
 # Startup the project
 
-The initial setup.
+### The initial setup.
+Clone repo using ssh
 
-Create virtualenv and install the project:
-```bash
-  $ sudo apt-get install virtualenv python-pip python-dev
-  $ deactivate; virtualenv ~/venv ; source ~/venv/bin/activate ;\
-    pip install pip -U; pip install -r requirements.txt
-```
+"""
+mkdir ~/code/lisbonne21
+cd ~/code/lisbonne21
+git clone git@github.com:lisbonne21/IIPE-data.git
+"""
 
-Unittest test:
-```bash
-  $ make clean install test
-```
+### Create virtualenv and install the project
 
-Check for IIPE in gitlab.com/{group}.
-If your project is not set please add it:
+Using `pyenv`
+https://github.com/pyenv/pyenv#homebrew-on-macos
 
-- Create a new project on `gitlab.com/{group}/IIPE`
-- Then populate it:
+If you're on Windows, consider using @kirankotari's pyenv-win fork.
+pyen(pyenv does not work on windows outside the Windows Subsystem for Linux)
 
-```bash
-  $ ##   e.g. if group is "{group}" and project_name is "IIPE"
-  $ git remote add origin git@gitlab.com:{group}/IIPE.git
-  $ git push -u origin master
-  $ git push -u origin --tags
-```
+"""
+pyenv virtualenv lisbonne21 # create a new virtualenv for our project
+pyenv virtualenvs           # list all virtualenvs
+pyenv activate lisbonne21   # enable our new virtualenv
+pip install --upgrade pip   # install and upgrade pip
+pip list                    # list all installed packages
 
-Functionnal test with a script:
-```bash
-  $ cd /tmp
-  $ IIPE-run
-```
-# Install
-Go to `gitlab.com/{group}/IIPE` to see the project, manage issues,
-setup you ssh public key, ...
+"""
 
-Create a python3 virtualenv and activate it:
-```bash
-  $ sudo apt-get install virtualenv python-pip python-dev
-  $ deactivate; virtualenv -ppython3 ~/venv ; source ~/venv/bin/activate
-```
 
-Clone the project and install it:
-```bash
-  $ git clone gitlab.com/{group}/IIPE
-  $ cd IIPE
-  $ pip install -r requirements.txt
-  $ make clean install test                # install and test
-```
-Functionnal test with a script:
-```bash
-  $ cd /tmp
-  $ IIPE-run
-```
+### A minimal `requirements.txt` to start working quickly :
+
+"""
+pip install -r https://gist.githubusercontent.com/krokrob/53ab953bbec16c96b9938fcaebf2b199/raw/9035bbf12922840905ef1fbbabc459dc565b79a3/minimal_requirements.txt
+pip list
+"""
+
+### Process / Best practices
+
+1. Make sure your git status is clean
+`git status`
+
+2. Get latest master
+`git checkout master`
+`git pull origin master`
+
+
+3. 1 task = 1 branch
+`git checkout -b my-task`
+Work on the existing files, or create new ones
+`git add .`
+`git commit -m "This is an informative message about my-task" `
+`git push origin my-task`
+
+4. Create a pull request
+Use the website
+Click on compare & pull request
+
+5. Someone else Reviews and Approves the pull request
+
+6. Remove unused branches locally
+`git sweep`
