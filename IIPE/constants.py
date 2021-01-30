@@ -1,0 +1,23 @@
+NEW_STOP_WORDS = [
+    "school",
+    "learning",
+    "student",
+    "pupil",
+    "teacher",
+    "management",
+    "teaching",
+    "support",
+    "lesson",
+    "board",
+] + [
+    "schools",
+    "learnings",
+    "students",
+    "pupils",
+    "teachers",
+    "managements",
+    "teachings",
+    "supports",
+    "lessons",
+    "boards",
+]

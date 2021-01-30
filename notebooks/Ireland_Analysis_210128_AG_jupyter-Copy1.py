@@ -36,10 +36,6 @@ from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.stem import WordNetLemmatizer
 from collections import Counter
 
-# <codecell>
-
-list(stopwords)
-
 # <markdowncell>
 
 # Select the data_samples to read .txt files
@@ -179,8 +175,8 @@ TotalText = list(df_FilesProperlyConverted.text.values)
 # <codecell>
 
 #stopwords, with plurals (otherwise the lemmatizong steps puts some of the stopwords back)
-#newStopWords = ['school','learning','student','pupil','teacher','management','teaching','support', 'lesson', 'board']
-#newStopWords_plur = ['schools','learnings','students','pupils','teachers','managements','teachings','supports', 'lessons', 'boards']
+newStopWords = ['school','learning','student','pupil','teacher','management','teaching','support', 'lesson', 'board']
+newStopWords_plur = ['schools','learnings','students','pupils','teachers','managements','teachings','supports', 'lessons', 'boards']
 newStopWords += newStopWords_plur
 stopwords = stopwords.union(newStopWords)
 TotalText = " ".join(TotalText)
@@ -190,10 +186,6 @@ tokens = [w for w in word_tokenize(TotalText.lower()) if w.isalpha()]          #
 no_stop = [t.strip() for t in tokens if t.strip() not in stopwords]      # stopwords already comes with a built-in list of words to remove
 wordnet_lemmatizer = WordNetLemmatizer()
 lemmatized = [wordnet_lemmatizer.lemmatize(t) for t in no_stop]
-
-# <codecell>
-
-stopwords
 
 # <codecell>
 
