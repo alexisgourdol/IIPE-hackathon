@@ -15,7 +15,7 @@
 
 # <codecell>
 
-#!pyenv virtualenvs
+!pyenv virtualenvs
 
 # <markdowncell>
 
@@ -65,26 +65,13 @@ tokens[:5]
 
 # <codecell>
 
-
-
-# <codecell>
-
-from nltk.corpus import stopwords
+from IIPE.constants import ALL_STOP_WORDS
+from sklearn.feature_extraction import text
 
 # <codecell>
 
-stopwords
-
-# <codecell>
-
-from IIPE.constants import NEW_STOP_WORDS
-NEW_STOP_WORDS
-
-# <codecell>
-
-from sklearn.feature_extraction import text 
-
-stop_words = text.ENGLISH_STOP_WORDS.union(my_additional_stop_words)
+all_stop_words = text.ENGLISH_STOP_WORDS.union(ALL_STOP_WORDS)
+type(all_stop_words), len(all_stop_words)
 
 # <codecell>
 
@@ -102,6 +89,24 @@ def print_topics(model, vectorizer):
         
 
 print_topics(lda_model, vectorizer)
+
+# <codecell>
+
+vectorizer = TfidfVectorizer(stop_words=all_stop_words).fit(df_contents['text'])
+
+data_vectorized = vectorizer.transform(df_contents['text'])
+
+lda_model = LatentDirichletAllocation(n_components=2).fit(data_vectorized)
+
+def print_topics(model, vectorizer):
+    for idx, topic in enumerate(model.components_):
+        print("Topic %d:" % (idx))
+        print([(vectorizer.get_feature_names()[i], topic[i])
+                        for i in topic.argsort()[:-10 - 1:-1]])
+        
+
+print_topics(lda_model, vectorizer)
+
 
 # <markdowncell>
 
