@@ -1,6 +1,6 @@
 # Data analysis :
-- Document here the project: Hackathon _Hacking Educational Planning - IIPE-UNESCO x Latitudes_
-- Description: Chellenge #3 Testing the use of inspection report textual data and modeling it in the form of thematic mapping to contribute to the improvement of the quality of education.
+- Project: Hackathon -- _Hacking Educational Planning - IIPE-UNESCO x Latitudes_
+- Description: Challenge #3 - Testing the use of inspection report textual data and modeling it in the form of thematic mapping to contribute to the improvement of the quality of education.
 - Data Source: [Department of Education, Ireland](https://www.education.ie/en/Publications/Inspection-Reports-Publications/Whole-School-Evaluation-Reports-List?pageNumber=1)
 - Type of analysis: Text mining, NLP, geospatial representation of text
 - Links:
@@ -9,15 +9,15 @@
 
 # The approach
 
-1 - Scrape the PDF reports
-2 - Extract text from PDF
-3 - Use LDA to extract topics
-4 - Vizualize on a map
+1. Scrape the PDF reports
+2. Extract text from PDF
+3. Use LDA to extract topics
+4. Vizualize on a map
 
 ## Startup the project
 
 ### The initial setup.
-Clone repo using ssh
+Clone repo
 
 ```bash
 mkdir ~/code/alexisgourdol
@@ -54,22 +54,32 @@ pip list
 `git status`
 
 2. Get latest master
+
 `git checkout master`
+
 `git pull origin master`
 
 
 3. 1 task = 1 branch
+
 `git checkout -b my-task`
+
 Work on the existing files, or create new ones
+
 `git add .`
+
 `git commit -m "This is an informative message about my-task" `
+
 `git push origin my-task`
 
 4. Create a pull request
+
 Use the website
+
 Click on compare & pull request
 
 5. Someone else Reviews and Approves the pull request
 
 6. Remove unused branches locally
+
 `git sweep`
