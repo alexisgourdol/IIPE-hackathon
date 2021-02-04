@@ -12,3 +12,7 @@ def clean_file_names(lst):
     references = [lst[0] for lst in splitted]
     dates = ["-".join(name[1:][::-1]) for name in splitted]
     return [(r, d) for r, d in zip(references, dates)]
+
+
+def find_2nd(string, substring):
+    return string.find(substring, string.find(substring) + 1)
