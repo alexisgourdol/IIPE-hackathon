@@ -1,11 +1,13 @@
 """Module to extract text from reports of the Irish Department of Education.
 Used, fixed and adapted some code from https://github.com/iiepdev/Inspection_Reports/blob/main/Ireland_Analysis.ipynb"""
 
+import os
 import requests
 import wget
 import pandas as pd
 from bs4 import BeautifulSoup
 from pdfminer.high_level import extract_text
+from IIPE.utils import find_2nd
 
 
 def scrape_reports_page(num_pages=142):
@@ -103,4 +105,104 @@ def download_pdfs(df):
         print("Report " + row["School Roll No."] + " downloaded")
         wget.download(DownloadURL, FileName)
 
-    return
+    return PDFToConvert
+
+
+def pdf_to_text(PDFToConvert, general_inspection_reports):
+    """Converts into .txt files, each PDF returned by download_pdfs(scrape_reports_page())
+    Adds a columns 'Key' to the general_inspection_reports dataframe"""
+    ConvertionCategories = {
+        "Properly processed": 0,
+        "Not in text format": 0,
+        "Cannot be processed": 0,
+    }
+    FilesProperlyConverted = {}
+    FilesNotConverted = []
+
+    for PDF in PDFToConvert:
+        try:
+            Text = extract_text(PDF + ".pdf")
+            if len(Text) == 0:
+                ConvertionCategories["Not in text format"] += 1
+                print(PDF + " is not in text format")
+            else:
+                ConvertionCategories["Properly processed"] += 1
+                Option1 = Text.find(
+                    "WHOLE-SCHOOL EVALUATION – MANAGEMENT, LEADERSHIP AND LEARNING   Dates of inspection"
+                )
+                if Option1 != -1:
+                    Text = Text[Option1:]
+                Option2 = Text.find(
+                    "WHOLE-SCHOOL EVALUATION – MANAGEMENT, LEADERSHIP AND LEARNING    Date of inspection"
+                )
+                if Option2 != -1:
+                    Text = Text[Option2:]
+                Option3 = Text.find(
+                    "WHOLE-SCHOOL EVALUATION – MANAGEMENT, LEADERSHIP AND LEARNING  Dates of inspection"
+                )
+                if Option3 != -1:
+                    Text = Text[Option3:]
+                Option4 = Text.find(
+                    "WHOLE-SCHOOL EVALUATION – MANAGEMENT, LEADERSHIP AND LEARNING Dates of inspection"
+                )
+                if Option4 != -1:
+                    Text = Text[Option4:]
+                Option5 = Text.find(
+                    "Whole-School Evaluation – Management, Leadership and Learning Dates of inspection"
+                )
+                if Option5 != -1:
+                    Text = Text[Option5:]
+                Option6 = Text.find("Whole-School Evaluation Date of inspection")
+                if Option6 != -1:
+                    Text = Text[Option6:]
+                if Text.find("An Roinn") == 1:
+                    Text = Text[find_2nd(Text, "Dates of inspection") :]
+                Option7 = Text.find("THE INSPECTORATE’S QUALITY CONTINUUM")
+                if Option7 != -1:
+                    Text = Text[: Option7 - 1]
+                Option8 = Text.find(
+                    "MEASTÓIREACHT SCOILE UILE – BAINISTÍOCHT, CEANNAIREACHT AGUS FOGHLAIM"
+                )
+                if Option8 != -1:
+                    FilesNotConverted.append(PDF[8:])
+                    print("Report " + PDF[8:] + " could not be processed")
+                    continue
+                FilesProperlyConverted[PDF] = {"Text": Text}
+                file_to_write = PDF[8:] + ".txt"
+                with open(
+                    os.path.join("Reports", "Plain text", file_to_write),
+                    "w",
+                    errors="ignore",
+                ) as output:
+                    output.write(str(Text))
+                print("Report " + PDF[8:] + " properly processed")
+        except (KeyError, UnicodeEncodeError):
+            ConvertionCategories["Cannot be processed"] = (
+                ConvertionCategories["Cannot be processed"] + 1
+            )
+            FilesNotConverted.append(PDF[8:])
+            print("Report " + PDF[8:] + " could not be processed")
+            continue
+
+    general_inspection_reports["Key"] = (
+        general_inspection_reports["School Roll No."]
+        + "_"
+        + general_inspection_reports["Date"]
+    )
+
+    csv_to_save = "InspectionReports.csv"
+    general_inspection_reports.to_csv(os.path.join("Reports", csv_to_save), index=False)
+    for p in range(len(FilesNotConverted)):
+        general_inspection_reports.drop(
+            general_inspection_reports[
+                general_inspection_reports.Key == FilesNotConverted[p]
+            ].index,
+            inplace=True,
+        )
+
+    csv_to_save_2 = "InspectionReports2.csv"
+    general_inspection_reports.to_csv(
+        os.path.join("Reports", csv_to_save_2), index=False
+    )
+
+    return general_inspection_reports
