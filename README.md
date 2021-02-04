@@ -19,11 +19,11 @@
 ### The initial setup.
 Clone repo using ssh
 
-"""
-mkdir ~/code/lisbonne21
-cd ~/code/lisbonne21
-git clone git@github.com:lisbonne21/IIPE-data.git
-"""
+```bash
+mkdir ~/code/alexisgourdol
+cd ~/code/alexisgourdol
+git clone git@github.com:alexisgourdol/IIPE-hackathon.git
+```
 
 ### Create virtualenv and install the project
 
