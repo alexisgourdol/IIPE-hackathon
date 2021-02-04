@@ -1,64 +1,75 @@
 # Data analysis :
-- Document here the project: IIPE
-- Description: Project Description
-- Data Source:
-- Type of analysis:
+- Document here the project: Hackathon _Hacking Educational Planning - IIPE-UNESCO x Latitudes_
+- Description: Chellenge #3 Testing the use of inspection report textual data and modeling it in the form of thematic mapping to contribute to the improvement of the quality of education.
+- Data Source: [Department of Education, Ireland](https://www.education.ie/en/Publications/Inspection-Reports-Publications/Whole-School-Evaluation-Reports-List?pageNumber=1)
+- Type of analysis: Text mining, NLP, geospatial representation of text
+- Links:
+  - http://www.iiep.unesco.org/en/hacking-edplanning
+  - https://www.eventbrite.fr/e/billets-hacking-educational-planning-iipe-unesco-x-latitudes-130771975499
 
-Please document the project the better you can.
+# The approach
 
-# Startup the project
+1 - Scrape the PDF reports
+2 - Extract text from PDF
+3 - Use LDA to extract topics
+4 - Vizualize on a map
 
-The initial setup.
+## Startup the project
 
-Create virtualenv and install the project:
-```bash
-  $ sudo apt-get install virtualenv python-pip python-dev
-  $ deactivate; virtualenv ~/venv ; source ~/venv/bin/activate ;\
-    pip install pip -U; pip install -r requirements.txt
-```
-
-Unittest test:
-```bash
-  $ make clean install test
-```
-
-Check for IIPE in gitlab.com/{group}.
-If your project is not set please add it:
-
-- Create a new project on `gitlab.com/{group}/IIPE`
-- Then populate it:
+### The initial setup.
+Clone repo using ssh
 
 ```bash
-  $ ##   e.g. if group is "{group}" and project_name is "IIPE"
-  $ git remote add origin git@gitlab.com:{group}/IIPE.git
-  $ git push -u origin master
-  $ git push -u origin --tags
+mkdir ~/code/alexisgourdol
+cd ~/code/alexisgourdol
+git clone git@github.com:alexisgourdol/IIPE-hackathon.git
 ```
 
-Functionnal test with a script:
-```bash
-  $ cd /tmp
-  $ IIPE-run
-```
-# Install
-Go to `gitlab.com/{group}/IIPE` to see the project, manage issues,
-setup you ssh public key, ...
+### Create virtualenv and install the project
 
-Create a python3 virtualenv and activate it:
+Using `pyenv`
+https://github.com/pyenv/pyenv#homebrew-on-macos
+
+If you're on Windows, consider using @kirankotari's pyenv-win fork.
+(pyenv does not work on windows outside the Windows Subsystem for Linux)
+
 ```bash
-  $ sudo apt-get install virtualenv python-pip python-dev
-  $ deactivate; virtualenv -ppython3 ~/venv ; source ~/venv/bin/activate
+pyenv virtualenv IIPE # create a new virtualenv for our project
+pyenv virtualenvs           # list all virtualenvs
+pyenv activate IIPE   # enable our new virtualenv
+pip install --upgrade pip   # install and upgrade pip
+pip list                    # list all installed packages
 ```
 
-Clone the project and install it:
+### Install `requirements.txt` :
+
 ```bash
-  $ git clone gitlab.com/{group}/IIPE
-  $ cd IIPE
-  $ pip install -r requirements.txt
-  $ make clean install test                # install and test
+pip install -r https://raw.githubusercontent.com/alexisgourdol/IIPE-hackathon/master/requirements.txt
+pip list
 ```
-Functionnal test with a script:
-```bash
-  $ cd /tmp
-  $ IIPE-run
-```
+
+### Process / Best practices
+
+1. Make sure your git status is clean
+`git status`
+
+2. Get latest master
+`git checkout master`
+`git pull origin master`
+
+
+3. 1 task = 1 branch
+`git checkout -b my-task`
+Work on the existing files, or create new ones
+`git add .`
+`git commit -m "This is an informative message about my-task" `
+`git push origin my-task`
+
+4. Create a pull request
+Use the website
+Click on compare & pull request
+
+5. Someone else Reviews and Approves the pull request
+
+6. Remove unused branches locally
+`git sweep`
