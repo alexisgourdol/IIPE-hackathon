@@ -1,12 +1,16 @@
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
-import nltk  # , re
+import nltk
 from nltk.corpus import stopwords
 from nltk.tokenize import sent_tokenize, word_tokenize
 from nltk.stem import WordNetLemmatizer
-from collections import Counter
 from IIPE.constants import NEW_STOP_WORDS
+
+"""
+Module to create tokens out of the extracted text in module scrape.py
+Used, fixed and adapted some code from https://github.com/iiepdev/Inspection_Reports/blob/main/Ireland_Analysis.ipynb
+"""
 
 
 def make_contents_df(lst):
@@ -39,8 +43,7 @@ def make_contents_df(lst):
 
 
 def make_tokens(df):
-    """Removes stopwords, stems and lemmatizes
-    Returns clean tokens"""
+    """Removes stopwords, stems and lemmatizes.  Returns clean tokens."""
 
     stopwords = set(nltk.corpus.stopwords.words("english"))
 
